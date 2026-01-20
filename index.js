@@ -62,10 +62,11 @@ app.get('/health', (req, res) => {
 
 /* 👉 ROTA DE LOGIN (ESSA ESTAVA FALTANDO) */
 app.post('/api/login', async (req, res) => {
-  const { email, senha } = req.body;
+  const { email, senha, password } = req.body;
+  const plainPassword = senha || password;
 
   try {
-    if (!email || !senha) {
+    if (!email || !plainPassword) {
       return res.status(400).json({
         success: false,
         message: 'Informe email e senha'
@@ -88,8 +89,8 @@ app.post('/api/login', async (req, res) => {
       const dbPassword = rows[0].password;
       const isBcrypt = typeof dbPassword === 'string' && dbPassword.startsWith('$2');
       const passwordOk = isBcrypt
-        ? await bcrypt.compare(senha, dbPassword)
-        : senha === dbPassword;
+        ? await bcrypt.compare(plainPassword, dbPassword)
+        : plainPassword === dbPassword;
 
       if (!passwordOk) {
         return res.status(401).json({
@@ -105,7 +106,7 @@ app.post('/api/login', async (req, res) => {
     }
 
     // Fallback simples se DB não estiver configurado
-    if (email === ADMIN_EMAIL && senha === ADMIN_PASSWORD) {
+    if (email === ADMIN_EMAIL && plainPassword === ADMIN_PASSWORD) {
       return res.json({
         success: true,
         token: 'fake-jwt-token'
