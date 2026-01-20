@@ -15,6 +15,9 @@ app.use(cors({
 
 app.use(express.json());
 
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'admin@test.com';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '123456';
+
 /* ===== ROTAS ===== */
 app.get('/', (req, res) => {
   res.send('API Mopar Pagamentos rodando 🚀');
@@ -29,7 +32,7 @@ app.post('/api/login', (req, res) => {
   const { email, senha } = req.body;
 
   // TESTE SIMPLES (depois você troca por banco)
-  if (email === 'admin@test.com' && senha === '123456') {
+  if (email === ADMIN_EMAIL && senha === ADMIN_PASSWORD) {
     return res.json({
       success: true,
       token: 'fake-jwt-token'
