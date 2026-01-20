@@ -51,6 +51,10 @@ const dbPool = DB_HOST && DB_USER && DB_PASSWORD && DB_NAME
   })
   : null;
 
+if (!dbPool) {
+  console.warn('DB nao configurado: verifique DB_HOST/DB_USER/DB_PASSWORD/DB_NAME');
+}
+
 /* ===== ROTAS ===== */
 app.get('/', (req, res) => {
   res.send('API Mopar Pagamentos rodando 🚀');
@@ -58,6 +62,20 @@ app.get('/', (req, res) => {
 
 app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
+});
+
+app.get('/health/db', async (req, res) => {
+  if (!dbPool) {
+    return res.status(500).json({ status: 'error', db: 'not_configured' });
+  }
+
+  try {
+    const [rows] = await dbPool.query('SELECT 1 AS ok');
+    return res.json({ status: 'ok', db: rows[0].ok === 1 });
+  } catch (error) {
+    console.error('Erro ao conectar no DB:', error);
+    return res.status(500).json({ status: 'error', db: 'connection_failed' });
+  }
 });
 
 /* 👉 ROTA DE LOGIN (ESSA ESTAVA FALTANDO) */
