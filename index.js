@@ -33,7 +33,7 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '123456';
 
 const DB_HOST = process.env.DB_HOST;
 const DB_USER = process.env.DB_USER;
-const DB_PASSWORD = process.env.DB_PASSWORD;
+const DB_PASSWORD = process.env.DB_PASSWORD || process.env.DB_PASS;
 const DB_NAME = process.env.DB_NAME;
 const DB_TABLE = process.env.DB_TABLE || 'usuarios';
 const DB_EMAIL_COLUMN = process.env.DB_EMAIL_COLUMN || 'email';
