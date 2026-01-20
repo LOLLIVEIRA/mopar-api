@@ -6,11 +6,22 @@ const bcrypt = require('bcryptjs');
 const app = express();
 
 /* ===== CORS ===== */
+const allowedOrigins = new Set([
+  'https://moparpagamentos.com.br',
+  'https://www.moparpagamentos.com.br',
+  'http://moparpagamentos.com.br',
+  'http://www.moparpagamentos.com.br',
+  'http://localhost:3000',
+  'http://localhost:5173'
+]);
+
 app.use(cors({
-  origin: [
-    'https://moparpagamentos.com.br',
-    'https://www.moparpagamentos.com.br'
-  ],
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.has(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error('Not allowed by CORS'));
+  },
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
