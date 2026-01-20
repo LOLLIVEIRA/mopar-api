@@ -1,3 +1,20 @@
+<<<<<<< HEAD
+{
+  "name": "mopar-api",
+  "version": "1.0.0",
+  "description": "API Mopar Pagamentos",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
+=======
 {
   "name": "mopar-backend",
   "version": "1.0.0",
@@ -10,3 +27,4 @@
     "cors": "^2.8.5"
   }
 }
+>>>>>>> 80bbde9335a2e5fd23833158de462f60a3241983
